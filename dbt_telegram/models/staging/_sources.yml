@@ -1,0 +1,50 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw data from Telegram scraping"
+    schema: raw
+    tables:
+      - name: raw_telegram_messages
+        description: "Raw Telegram messages data"
+        columns:
+          - name: id
+            description: "Primary key"
+            tests:
+              - unique
+              - not_null
+          - name: message_id
+            description: "Telegram message ID"
+          - name: channel_username
+            description: "Channel username"
+          - name: message_text
+            description: "Message content"
+          - name: message_date
+            description: "Message timestamp"
+          - name: has_media
+            description: "Whether message contains media"
+          - name: views
+            description: "Number of views"
+          - name: forwards
+            description: "Number of forwards"
+          - name: replies
+            description: "Number of replies"
+            
+      - name: raw_channel_info
+        description: "Raw channel information data"
+        columns:
+          - name: id
+            description: "Primary key"
+            tests:
+              - unique
+              - not_null
+          - name: channel_username
+            description: "Channel username"
+            tests:
+              - not_null
+          - name: channel_title
+            description: "Channel title"
+          - name: message_count
+            description: "Number of messages scraped"
+          - name: scraped_at
+            description: "When the channel was scraped" 
