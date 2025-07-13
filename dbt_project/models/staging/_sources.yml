@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw data from the data lake"
+    schema: raw
+    tables:
+      - name: telegram_messages
+        description: "Raw telegram messages from CSV scraping"
+        columns:
+          - name: id
+            description: "Primary key"
+            tests:
+              - unique
+              - not_null
+          - name: channel_title
+            description: "Title of the telegram channel"
+          - name: channel_username
+            description: "Username of the telegram channel"
+          - name: message_id
+            description: "Telegram message ID"
+          - name: message_text
+            description: "Text content of the message"
+          - name: message_date
+            description: "Timestamp when message was sent"
+          - name: media_path
+            description: "Path to media file if message contains media"
+          - name: loaded_at
+            description: "When the record was loaded into the database" 

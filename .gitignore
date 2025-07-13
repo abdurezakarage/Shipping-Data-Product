@@ -1,1 +1,9 @@
 data/
+.env
+*.session
+__pycache__/
+*.pyc
+.DS_Store
+dbt_packages/
+target/
+logs/

@@ -1,0 +1,123 @@
+version: 2
+
+models:
+  - name: dim_channels
+    description: "Dimension table containing information about Telegram channels"
+    columns:
+      - name: channel_key
+        description: "Primary key for the channel dimension"
+        tests:
+          - unique
+          - not_null
+      - name: channel_name
+        description: "Name of the Telegram channel"
+        tests:
+          - not_null
+      - name: total_messages
+        description: "Total number of messages from this channel"
+      - name: first_message_date
+        description: "Date of the first message from this channel"
+      - name: last_message_date
+        description: "Date of the last message from this channel"
+      - name: avg_message_length
+        description: "Average length of messages from this channel"
+      - name: avg_word_count
+        description: "Average word count of messages from this channel"
+      - name: media_percentage
+        description: "Percentage of messages that contain media"
+      - name: avg_views_per_message
+        description: "Average views per message for this channel"
+      - name: avg_forwards_per_message
+        description: "Average forwards per message for this channel"
+      - name: avg_replies_per_message
+        description: "Average replies per message for this channel"
+
+  - name: dim_dates
+    description: "Dimension table for time-based analysis with various date attributes"
+    columns:
+      - name: date_key
+        description: "Primary key for the date dimension"
+        tests:
+          - unique
+          - not_null
+      - name: year
+        description: "Year of the date"
+      - name: month
+        description: "Month of the date (1-12)"
+      - name: day
+        description: "Day of the date (1-31)"
+      - name: day_of_week
+        description: "Day of the week (0=Sunday, 6=Saturday)"
+      - name: quarter
+        description: "Quarter of the year (1-4)"
+      - name: month_name
+        description: "Full name of the month"
+      - name: day_name
+        description: "Full name of the day"
+      - name: is_weekend
+        description: "Whether the date falls on a weekend"
+      - name: total_messages
+        description: "Total messages sent on this date"
+      - name: active_channels
+        description: "Number of active channels on this date"
+      - name: active_senders
+        description: "Number of active senders on this date"
+
+  - name: fct_messages
+    description: "Fact table containing message-level metrics and foreign keys to dimension tables"
+    columns:
+      - name: message_key
+        description: "Primary key for the message fact"
+        tests:
+          - unique
+          - not_null
+      - name: channel_key
+        description: "Foreign key to dim_channels"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_channels')
+              field: channel_key
+      - name: date_key
+        description: "Foreign key to dim_dates"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: date_key
+      - name: message_id
+        description: "Original Telegram message ID"
+      - name: sender_id
+        description: "ID of the message sender"
+      - name: sender_username
+        description: "Username of the message sender"
+      - name: message_text
+        description: "Text content of the message"
+      - name: has_text
+        description: "Whether the message contains text"
+      - name: message_length
+        description: "Length of the message text in characters"
+      - name: word_count
+        description: "Number of words in the message"
+      - name: message_type
+        description: "Type of message (text, media, other)"
+      - name: has_media
+        description: "Whether the message contains media"
+      - name: media_type
+        description: "Type of media in the message"
+      - name: views_count
+        description: "Number of views for this message"
+      - name: forwards_count
+        description: "Number of forwards for this message"
+      - name: replies_count
+        description: "Number of replies for this message"
+      - name: forward_rate_percent
+        description: "Forward rate as percentage of views"
+      - name: reply_rate_percent
+        description: "Reply rate as percentage of views"
+      - name: total_engagement
+        description: "Total engagement (views + forwards + replies)"
+      - name: message_length_category
+        description: "Categorized message length (short, medium, long, empty)"
+      - name: message_detail_level
+        description: "Categorized message detail level (brief, moderate, detailed, empty)" 
