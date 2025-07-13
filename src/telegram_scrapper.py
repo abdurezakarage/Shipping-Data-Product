@@ -56,7 +56,7 @@ async def main():
     await client.start()
     
     # Create data/raw directory and photos subdirectory
-    raw_data_dir = 'data/labeled'
+    raw_data_dir = 'data/raw'
     media_dir = os.path.join(raw_data_dir, 'photos')
     os.makedirs(media_dir, exist_ok=True)
 
