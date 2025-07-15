@@ -44,4 +44,4 @@ for idx, row in df.iterrows():
 with open(OUTPUT_JSON, 'w', encoding='utf-8') as f:
     json.dump(results_list, f, ensure_ascii=False, indent=2)
 
-print(f"Detection results saved to {OUTPUT_JSON}") 
+print(f"Detection results saved to {OUTPUT_JSON}")
