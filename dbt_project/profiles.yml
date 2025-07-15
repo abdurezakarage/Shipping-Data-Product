@@ -4,7 +4,7 @@ shipping_profile:
     dev:
       type: postgres
       host: "{{ env_var('DB_HOST', 'localhost') }}"
-      port: "{{ env_var('DB_PORT', 5432) | as_numeric }}"
+      port: "{{ env_var('DB_PORT', 5432) }}"
       user: "{{ env_var('DB_USER', 'postgres') }}"
       password: "{{ env_var('DB_PASSWORD', 'password') }}"
       dbname: "{{ env_var('DB_NAME', 'shipping_data_warehouse') }}"
@@ -16,7 +16,7 @@ shipping_profile:
     prod:
       type: postgres
       host: "{{ env_var('DB_HOST', 'localhost') }}"
-      port: "{{ env_var('DB_PORT', 5432) | as_numeric }}"
+      port: "{{ env_var('DB_PORT', 5432) }}"
       user: "{{ env_var('DB_USER', 'postgres') }}"
       password: "{{ env_var('DB_PASSWORD', 'password') }}"
       dbname: "{{ env_var('DB_NAME', 'shipping_data_warehouse') }}"
