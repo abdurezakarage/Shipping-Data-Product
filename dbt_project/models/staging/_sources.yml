@@ -26,4 +26,17 @@ sources:
           - name: media_path
             description: "Path to media file if message contains media"
           - name: loaded_at
-            description: "When the record was loaded into the database" 
+            description: "When the record was loaded into the database"
+      - name: image_detections
+        description: "YOLO object detection results for images"
+        columns:
+          - name: message_id
+            description: "Foreign key to telegram message"
+          - name: image_filename
+            description: "Filename of the image"
+          - name: detected_object_class
+            description: "Class of detected object (from YOLO)"
+          - name: confidence_score
+            description: "YOLO model confidence score"
+          - name: bbox
+            description: "Bounding box coordinates for detected object" 
