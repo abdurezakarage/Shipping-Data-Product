@@ -6,7 +6,7 @@ shipping_profile:
       host: "{{ env_var('DB_HOST', 'localhost') }}"
       port: "{{ env_var('DB_PORT', 5432) }}"
       user: "{{ env_var('DB_USER', 'postgres') }}"
-      password: "{{ env_var('DB_PASSWORD', 'password') }}"
+      password: "{{ env_var('DB_PASSWORD', '0581') }}"
       dbname: "{{ env_var('DB_NAME', 'shipping_data_warehouse') }}"
       schema: "{{ env_var('DBT_SCHEMA', 'dbt_dev') }}"
       threads: 4

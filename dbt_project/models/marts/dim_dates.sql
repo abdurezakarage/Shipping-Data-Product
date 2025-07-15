@@ -79,13 +79,9 @@ message_stats AS (
         COUNT(*) as total_messages,
         COUNT(DISTINCT channel_id) as active_channels,
         COUNT(DISTINCT sender_id) as active_senders,
-        SUM(views_count) as total_views,
-        SUM(forwards_count) as total_forwards,
-        SUM(replies_count) as total_replies,
         AVG(message_length) as avg_message_length,
         AVG(word_count) as avg_word_count,
-        SUM(CASE WHEN has_media THEN 1 ELSE 0 END) as media_messages,
-        SUM(CASE WHEN has_text THEN 1 ELSE 0 END) as text_messages
+        SUM(CASE WHEN has_media THEN 1 ELSE 0 END) as media_messages
     FROM {{ ref('stg_telegram_messages') }}
     WHERE message_date IS NOT NULL
     GROUP BY message_date
@@ -114,13 +110,9 @@ SELECT
     COALESCE(ms.total_messages, 0) as total_messages,
     COALESCE(ms.active_channels, 0) as active_channels,
     COALESCE(ms.active_senders, 0) as active_senders,
-    COALESCE(ms.total_views, 0) as total_views,
-    COALESCE(ms.total_forwards, 0) as total_forwards,
-    COALESCE(ms.total_replies, 0) as total_replies,
     COALESCE(ms.avg_message_length, 0) as avg_message_length,
     COALESCE(ms.avg_word_count, 0) as avg_word_count,
     COALESCE(ms.media_messages, 0) as media_messages,
-    COALESCE(ms.text_messages, 0) as text_messages,
     CURRENT_TIMESTAMP as dbt_updated_at
 FROM date_attributes da
 LEFT JOIN message_stats ms ON da.date_key = ms.date_key 
