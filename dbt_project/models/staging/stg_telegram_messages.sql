@@ -16,15 +16,13 @@ cleaned AS (
         
         -- Message identifiers
         message_id,
-        channel_title,
-        channel_username,
+        channel_name,
+        channel_id,
+        sender_id,
+        sender_username,
         
         -- Message content
         message_text,
-        CASE 
-            WHEN message_text IS NULL OR message_text = '' THEN FALSE 
-            ELSE TRUE 
-        END as has_text,
         
         -- Date and time
         CASE 
@@ -47,20 +45,8 @@ cleaned AS (
         EXTRACT(DOW FROM message_date::timestamp) as message_day_of_week,
         
         -- Media information
-        CASE 
-            WHEN media_path IS NOT NULL AND media_path != '' THEN TRUE 
-            ELSE FALSE 
-        END as has_media,
-        
-        CASE 
-            WHEN media_path LIKE '%.jpg' OR media_path LIKE '%.jpeg' OR media_path LIKE '%.png' THEN 'photo'
-            WHEN media_path LIKE '%.mp4' OR media_path LIKE '%.avi' OR media_path LIKE '%.mov' THEN 'video'
-            WHEN media_path LIKE '%.mp3' OR media_path LIKE '%.wav' THEN 'audio'
-            WHEN media_path IS NOT NULL AND media_path != '' THEN 'other'
-            ELSE NULL 
-        END as media_type,
-        
-        media_path,
+        has_media,
+        media_type,
         
         -- Calculated fields
         CASE 
@@ -79,18 +65,10 @@ cleaned AS (
         CASE 
             WHEN has_media = TRUE AND media_type IS NOT NULL 
             THEN 'media'
-            WHEN has_text = TRUE 
+            WHEN (message_text IS NOT NULL AND message_text != '') 
             THEN 'text'
             ELSE 'other'
         END as message_type,
-        
-        -- Channel classification
-        CASE 
-            WHEN channel_username LIKE '%CheMed%' THEN 'CheMed'
-            WHEN channel_username LIKE '%lobelia%' THEN 'Lobelia'
-            WHEN channel_username LIKE '%tikvah%' THEN 'Tikvah'
-            ELSE 'Other'
-        END as channel_category,
         
         loaded_at
         

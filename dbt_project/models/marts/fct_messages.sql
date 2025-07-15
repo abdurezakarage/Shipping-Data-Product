@@ -9,12 +9,10 @@ WITH messages AS (
     SELECT
         message_key,
         message_id,
-        channel_title,
-        channel_username,
-        channel_category,
+        channel_name,
+        channel_id,
         message_date,
         message_text,
-        has_text,
         message_timestamp,
         message_year,
         message_month,
@@ -23,7 +21,6 @@ WITH messages AS (
         message_day_of_week,
         has_media,
         media_type,
-        media_path,
         message_length,
         word_count,
         message_type,
@@ -32,7 +29,7 @@ WITH messages AS (
 ),
 
 channels AS (
-    SELECT channel_key, channel_username
+    SELECT channel_key, channel_id
     FROM {{ ref('dim_channels') }}
 ),
 
@@ -51,13 +48,11 @@ SELECT
     
     -- Message identifiers
     m.message_id,
-    m.channel_title,
-    m.channel_username,
-    m.channel_category,
+    m.channel_name,
+    m.channel_id,
     
     -- Message content
     m.message_text,
-    m.has_text,
     m.message_length,
     m.word_count,
     m.message_type,
@@ -70,7 +65,6 @@ SELECT
     -- Media information
     m.has_media,
     m.media_type,
-    m.media_path,
     
     -- Message quality indicators
     CASE 
@@ -110,5 +104,5 @@ SELECT
     CURRENT_TIMESTAMP as dbt_updated_at
 
 FROM messages m
-LEFT JOIN channels c ON m.channel_username = c.channel_username
+LEFT JOIN channels c ON m.channel_id = c.channel_id
 LEFT JOIN dates d ON m.message_date = d.date_key 
